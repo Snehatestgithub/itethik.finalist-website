@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCTV Installation Services - ITHETHIK</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: '#0A192F',
+                        cyan: '#64FFDA',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .text-gradient {
+            background: linear-gradient(135deg, #64FFDA, #6366F1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .bg-glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+            opacity: 0;
+        }
+        .fade-in.delay-1 { animation-delay: 0.2s; }
+        .fade-in.delay-2 { animation-delay: 0.4s; }
+        .fade-in.delay-3 { animation-delay: 0.6s; }
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in { transform: translateY(20px); }
+        .hover-glow:hover {
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.3);
+            transform: translateY(-5px);
+        }
+        .count-up {
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Radar Animation Background */
+        .radar-wrapper {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            background-color: #050b14;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .radar-grid {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                radial-gradient(circle at center, transparent 40%, #050b14 100%),
+                linear-gradient(rgba(100, 255, 218, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(100, 255, 218, 0.1) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+        }
+        .radar-scanner {
+            position: absolute;
+            width: 80vw;
+            height: 80vw;
+            max-width: 800px;
+            max-height: 800px;
+            border-radius: 50%;
+            border: 2px solid rgba(100, 255, 218, 0.2);
+            background: conic-gradient(from 0deg, transparent 70%, rgba(100, 255, 218, 0.4) 100%);
+            animation: scan 4s linear infinite;
+        }
+        .radar-scanner::before {
+            content: '';
+            position: absolute;
+            inset: 20%;
+            border: 1px dashed rgba(100, 255, 218, 0.3);
+            border-radius: 50%;
+        }
+        .radar-scanner::after {
+            content: '';
+            position: absolute;
+            inset: 40%;
+            border: 1px solid rgba(100, 255, 218, 0.4);
+            border-radius: 50%;
+        }
+        @keyframes scan {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Case Studies Carousel Styles */
+        .case-study-card {
+            background: rgba(10, 25, 47, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(100, 255, 218, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .case-study-card:hover {
+            border-color: rgba(100, 255, 218, 0.4);
+            box-shadow: 0 0 40px rgba(100, 255, 218, 0.15);
+            transform: translateY(-12px);
+        }
+        .case-study-image-container {
+            overflow: hidden;
+            border-radius: 1rem;
+            position: relative;
+        }
+        .case-study-image {
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+        }
+        .case-study-card:hover .case-study-image {
+            transform: scale(1.1);
+        }
+        .swiper-button-next, .swiper-button-prev {
+            color: #64FFDA !important;
+            background: rgba(10, 25, 47, 0.8);
+            width: 50px !important;
+            height: 50px !important;
+            border-radius: 50%;
+            border: 1px solid rgba(100, 255, 218, 0.2);
+            backdrop-filter: blur(4px);
+        }
+        .swiper-button-next:after, .swiper-button-prev:after {
+            font-size: 1.2rem !important;
+            font-weight: bold;
+        }
+        .swiper-pagination-bullet {
+            background: rgba(100, 255, 218, 0.3) !important;
+            opacity: 1 !important;
+        }
+        .swiper-pagination-bullet-active {
+            background: #64FFDA !important;
+            width: 30px !important;
+            border-radius: 10px !important;
+        }
+        .blue-glow-bg {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(100, 255, 218, 0.05) 0%, transparent 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .case-study-slide {
+            width: 100% !important;
+            height: auto;
+        }
+    </style>
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+</head>
+<body class="bg-navy text-white min-h-screen">
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 bg-navy/80 backdrop-blur-md border-b border-white/10 px-4 md:px-10 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <!-- Logo -->
+            <a href="/" class="flex items-center gap-2 z-50">
+                <div class="inline-flex items-center">
+                    <img src="/logo.png" alt="ITHETHIK" class="h-10 w-auto object-contain" />
+                </div>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-8">
+                <a href="/" class="text-gray-300 hover:text-cyan transition text-sm font-medium">Home</a>
+                <a href="/about" class="text-gray-300 hover:text-cyan transition text-sm font-medium">About</a>
+                <a href="/services" class="text-gray-300 hover:text-cyan transition text-sm font-medium">Services</a>
+                <a href="/portfolio" class="text-gray-300 hover:text-cyan transition text-sm font-medium">Portfolio</a>
+                <a href="/contact" class="text-gray-300 hover:text-cyan transition text-sm font-medium">Contact</a>
+                <a href="https://wa.me/918976765350" target="_blank" rel="noopener noreferrer" class="hidden md:flex bg-gradient-to-r from-purple-600 to-cyan-500 text-white px-6 py-2 rounded-full font-semibold text-sm hover:shadow-lg hover:shadow-purple-500/50 transition items-center gap-2">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.031-.967-.273-.099-.472-.149-.672.15-.199.297-.768.967-.941 1.166-.173.199-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.447-.52.149-.173.199-.297.298-.497.099-.199.05-.373-.025-.522-.075-.149-.672-1.624-.921-2.224-.242-.58-.487-.502-.672-.512l-.573-.01c-.199 0-.522.074-.795.373s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.199 2.095 3.2 5.076 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.874.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347z"/>
+                    </svg>
+                    Chat Now
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button onclick="toggleMenu()" class="md:hidden p-2 hover:bg-white/10 rounded-lg transition z-50">
+                <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden absolute top-16 left-0 right-0 bg-navy/95 backdrop-blur-lg border-b border-white/10 px-4 py-6">
+            <div class="space-y-4">
+                <a href="/" onclick="toggleMenu()" class="block text-gray-300 hover:text-cyan transition font-medium py-2">Home</a>
+                <a href="/about" onclick="toggleMenu()" class="block text-gray-300 hover:text-cyan transition font-medium py-2">About</a>
+                <a href="/services" onclick="toggleMenu()" class="block text-gray-300 hover:text-cyan transition font-medium py-2">Services</a>
+                <a href="/portfolio" onclick="toggleMenu()" class="block text-gray-300 hover:text-cyan transition font-medium py-2">Portfolio</a>
+                <a href="/contact" onclick="toggleMenu()" class="block text-gray-300 hover:text-cyan transition font-medium py-2">Contact</a>
+                <a href="https://wa.me/918976765350" target="_blank" rel="noopener noreferrer" onclick="toggleMenu()" class="flex items-center justify-center gap-2 w-full bg-gradient-to-r from-purple-600 to-cyan-500 text-white px-6 py-3 rounded-lg font-semibold text-center hover:shadow-lg transition mt-4">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.031-.967-.273-.099-.472-.149-.672.15-.199.297-.768.967-.941 1.166-.173.199-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.447-.52.149-.173.199-.297.298-.497.099-.199.05-.373-.025-.522-.075-.149-.672-1.624-.921-2.224-.242-.58-.487-.502-.672-.512l-.573-.01c-.199 0-.522.074-.795.373s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.199 2.095 3.2 5.076 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.874.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347z"/>
+                    </svg>
+                    Chat on WhatsApp
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Spacer -->
+    <div class="h-20"></div>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <!-- Radar Background -->
+        <div class="radar-wrapper">
+            <div class="radar-grid"></div>
+            <div class="radar-scanner"></div>
+        </div>
+        <!-- End Radar Background -->
+        
+        <div class="relative z-10 text-center px-6 max-w-4xl mx-auto fade-in">
+            <h1 class="text-6xl md:text-8xl font-bold mb-6">
+                CCTV <span class="text-gradient">Installation</span> Services
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto">
+                Professional security solutions with cutting-edge technology for complete peace of mind.
+            </p>
+            <div class="flex gap-4 justify-center flex-wrap">
+                <a href="#contact" class="bg-gradient-to-r from-purple-600 to-cyan-500 text-white px-8 py-4 rounded-full font-bold hover:shadow-lg hover:shadow-purple-500/50 transition transform hover:scale-105">
+                    Get Quote
+                </a>
+                <a href="tel:+918976765350" class="border-2 border-cyan px-8 py-4 rounded-full font-bold text-cyan hover:bg-cyan hover:text-navy transition">
+                    Call Now
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Description Section -->
+    <section class="py-20 px-6 md:px-10 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div class="fade-in delay-1">
+                <h2 class="text-4xl font-bold mb-6">Why Choose Our CCTV Services?</h2>
+                <p class="text-gray-300 text-lg leading-relaxed mb-6">
+                    At ITHETHIK, we provide comprehensive CCTV installation services that combine advanced technology with professional expertise. Our solutions are designed to protect your business, home, or property with reliable surveillance systems that deliver crystal-clear footage and real-time monitoring capabilities.
+                </p>
+                <p class="text-gray-300 text-lg leading-relaxed mb-8">
+                    From initial consultation to final setup and ongoing maintenance, we ensure your security system is tailored to your specific needs, budget, and requirements. Trust us to safeguard what matters most to you.
+                </p>
+                <div class="flex gap-4 flex-wrap">
+                    <div class="bg-glass px-4 py-2 rounded-full text-sm">HD Quality Cameras</div>
+                    <div class="bg-glass px-4 py-2 rounded-full text-sm">24/7 Monitoring</div>
+                    <div class="bg-glass px-4 py-2 rounded-full text-sm">Professional Installation</div>
+                    <div class="bg-glass px-4 py-2 rounded-full text-sm">Maintenance Support</div>
+                </div>
+            </div>
+            <div class="fade-in delay-2">
+                <div class="relative group h-full">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-cyan-500 rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+                    <div class="relative bg-navy rounded-3xl border border-white/10 overflow-hidden h-[400px]">
+                        <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?q=80&w=1000&auto=format&fit=crop" alt="Advanced CCTV Camera" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-navy/80 to-transparent flex items-end p-8">
+                            <p class="text-gray-300">Advanced surveillance technology for modern security needs</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Features Section -->
+    <section class="py-20 px-6 md:px-10 max-w-7xl mx-auto">
+        <div class="text-center mb-16 fade-in">
+            <h2 class="text-4xl font-bold mb-4">What We Offer</h2>
+            <p class="text-gray-300 max-w-2xl mx-auto">Comprehensive CCTV solutions tailored to your security needs</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="bg-glass p-6 rounded-2xl hover-glow transition-all duration-300 fade-in delay-1 overflow-hidden flex flex-col">
+                <div class="h-48 w-full rounded-xl overflow-hidden mb-6">
+                    <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+                </div>
+                <h3 class="text-xl font-bold mb-3">HD Camera Installation</h3>
+                <p class="text-gray-300 text-sm">Crystal-clear 4K resolution cameras with night vision and weatherproof design for optimal surveillance.</p>
+            </div>
+            <div class="bg-glass p-6 rounded-2xl hover-glow transition-all duration-300 fade-in delay-2 overflow-hidden flex flex-col">
+                <div class="h-48 w-full rounded-xl overflow-hidden mb-6">
+                    <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+                </div>
+                <h3 class="text-xl font-bold mb-3">Mobile Monitoring</h3>
+                <p class="text-gray-300 text-sm">Access your security feeds anytime, anywhere through our user-friendly mobile app and web portal.</p>
+            </div>
+            <div class="bg-glass p-6 rounded-2xl hover-glow transition-all duration-300 fade-in delay-3 overflow-hidden flex flex-col">
+                <div class="h-48 w-full rounded-xl overflow-hidden mb-6">
+                    <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+                </div>
+                <h3 class="text-xl font-bold mb-3">Maintenance & Support</h3>
+                <p class="text-gray-300 text-sm">Ongoing technical support and regular maintenance to ensure your system operates flawlessly.</p>
+            </div>
+            <div class="bg-glass p-6 rounded-2xl hover-glow transition-all duration-300 fade-in delay-1 overflow-hidden flex flex-col">
+                <div class="h-48 w-full rounded-xl overflow-hidden mb-6">
+                    <img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+                </div>
+                <h3 class="text-xl font-bold mb-3">Commercial Solutions</h3>
+                <p class="text-gray-300 text-sm">Scalable systems for businesses, retail stores, and commercial properties with advanced analytics.</p>
+            </div>
+            <div class="bg-glass p-6 rounded-2xl hover-glow transition-all duration-300 fade-in delay-2 overflow-hidden flex flex-col">
+                <div class="h-48 w-full rounded-xl overflow-hidden mb-6">
+                    <img src="https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+                </div>
+                <h3 class="text-xl font-bold mb-3">Home Security</h3>
+                <p class="text-gray-300 text-sm">Smart home integration with doorbell cameras, motion detection, and smart home compatibility.</p>
+            </div>
+            <div class="bg-glass p-6 rounded-2xl hover-glow transition-all duration-300 fade-in delay-3 overflow-hidden flex flex-col">
+                <div class="h-48 w-full rounded-xl overflow-hidden mb-6">
+                    <img src="https://images.unsplash.com/photo-1521791136064-7986c2959213?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+                </div>
+                <h3 class="text-xl font-bold mb-3">Quick Installation</h3>
+                <p class="text-gray-300 text-sm">Professional installation completed within 24-48 hours with minimal disruption to your operations.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CCTV Installation Case Studies Section -->
+    <section class="py-24 relative overflow-hidden bg-navy">
+        <div class="blue-glow-bg top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 md:px-10">
+            <div class="text-center mb-16 fade-in">
+                <div class="inline-block px-4 py-1.5 mb-4 rounded-full border border-cyan/30 bg-cyan/5 text-cyan text-xs font-bold tracking-widest uppercase">
+                    Case Studies
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Recent CCTV Installation Projects</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto text-lg">
+                    Real security solutions implemented across offices, apartments, retail stores, parking spaces, and commercial environments.
+                </p>
+            </div>
+
+            <!-- Swiper Carousel -->
+            <div class="swiper caseStudiesSwiper fade-in delay-1 overflow-visible">
+                <div class="swiper-wrapper">
+                    <!-- Slide 1: Office -->
+                    <div class="swiper-slide case-study-slide cursor-pointer" onclick="openModal('office')">
+                        <div class="group relative h-[450px] w-full overflow-hidden rounded-2xl border border-white/10">
+                            <img src="/images/cctv/office.png" alt="Office Security" class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent"></div>
+                            <div class="absolute inset-x-0 bottom-0 p-6 md:p-8">
+                                <div class="mb-2 text-xl font-bold text-white">Office Building Security Upgrade</div>
+                                <p class="mb-6 line-clamp-2 text-sm text-gray-300">Installed surveillance cameras across entrances, hallways, elevators, and parking zones for complete monitoring.</p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold text-cyan uppercase tracking-wider">32 Cameras</span>
+                                    <span class="flex items-center text-sm font-medium text-white/80 group-hover:text-cyan transition-colors">
+                                        View Detail <svg class="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 2: Apartment -->
+                    <div class="swiper-slide case-study-slide cursor-pointer" onclick="openModal('apartment')">
+                        <div class="group relative h-[450px] w-full overflow-hidden rounded-2xl border border-white/10">
+                            <img src="/images/cctv/apartment.png" alt="Apartment Monitoring" class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent"></div>
+                            <div class="absolute inset-x-0 bottom-0 p-6 md:p-8">
+                                <div class="mb-2 text-xl font-bold text-white">Apartment Complex Monitoring</div>
+                                <p class="mb-6 line-clamp-2 text-sm text-gray-300">Deployed CCTV systems in apartment entrances, corridors, parking spaces, and common areas.</p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold text-cyan uppercase tracking-wider">24 Cameras</span>
+                                    <span class="flex items-center text-sm font-medium text-white/80 group-hover:text-cyan transition-colors">
+                                        View Detail <svg class="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3: Retail -->
+                    <div class="swiper-slide case-study-slide cursor-pointer" onclick="openModal('retail')">
+                        <div class="group relative h-[450px] w-full overflow-hidden rounded-2xl border border-white/10">
+                            <img src="/images/cctv/retail.png" alt="Retail Surveillance" class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent"></div>
+                            <div class="absolute inset-x-0 bottom-0 p-6 md:p-8">
+                                <div class="mb-2 text-xl font-bold text-white">Local Retail Store Surveillance</div>
+                                <p class="mb-6 line-clamp-2 text-sm text-gray-300">Installed indoor and outdoor security cameras to monitor billing counters and inventory zones.</p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold text-cyan uppercase tracking-wider">16 Cameras</span>
+                                    <span class="flex items-center text-sm font-medium text-white/80 group-hover:text-cyan transition-colors">
+                                        View Detail <svg class="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 4: Warehouse -->
+                    <div class="swiper-slide case-study-slide cursor-pointer" onclick="openModal('warehouse')">
+                        <div class="group relative h-[450px] w-full overflow-hidden rounded-2xl border border-white/10">
+                            <img src="/images/cctv/warehouse.png" alt="Warehouse Protection" class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent"></div>
+                            <div class="absolute inset-x-0 bottom-0 p-6 md:p-8">
+                                <div class="mb-2 text-xl font-bold text-white">Warehouse & Storage Protection</div>
+                                <p class="mb-6 line-clamp-2 text-sm text-gray-300">Implemented 24/7 surveillance systems covering loading areas and entry gates.</p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold text-cyan uppercase tracking-wider">48 Cameras</span>
+                                    <span class="flex items-center text-sm font-medium text-white/80 group-hover:text-cyan transition-colors">
+                                        View Detail <svg class="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 5: Parking -->
+                    <div class="swiper-slide case-study-slide cursor-pointer" onclick="openModal('parking')">
+                        <div class="group relative h-[450px] w-full overflow-hidden rounded-2xl border border-white/10">
+                            <img src="https://images.unsplash.com/photo-1590674867571-67d8019588ff?q=80&w=1000&auto=format&fit=crop" alt="Parking Area Monitoring" class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent"></div>
+                            <div class="absolute inset-x-0 bottom-0 p-6 md:p-8">
+                                <div class="mb-2 text-xl font-bold text-white">Commercial Parking Area Monitoring</div>
+                                <p class="mb-6 line-clamp-2 text-sm text-gray-300">Installed perimeter surveillance cameras with night vision for improved vehicle security.</p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold text-cyan uppercase tracking-wider">20 Cameras</span>
+                                    <span class="flex items-center text-sm font-medium text-white/80 group-hover:text-cyan transition-colors">
+                                        View Detail <svg class="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 6: Reception -->
+                    <div class="swiper-slide case-study-slide cursor-pointer" onclick="openModal('reception')">
+                        <div class="group relative h-[450px] w-full overflow-hidden rounded-2xl border border-white/10">
+                            <img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=1000&auto=format&fit=crop" alt="Reception Security" class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent"></div>
+                            <div class="absolute inset-x-0 bottom-0 p-6 md:p-8">
+                                <div class="mb-2 text-xl font-bold text-white">Reception & Lobby Security</div>
+                                <p class="mb-6 line-clamp-2 text-sm text-gray-300">Installed modern dome cameras in reception areas and waiting zones for monitoring.</p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold text-cyan uppercase tracking-wider">12 Cameras</span>
+                                    <span class="flex items-center text-sm font-medium text-white/80 group-hover:text-cyan transition-colors">
+                                        View Detail <svg class="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                
+                <!-- Pagination -->
+                <div class="swiper-pagination !-bottom-12"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Case Study Modal -->
+    <div id="caseStudyModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 md:p-6 bg-navy/90 backdrop-blur-md">
+        <div class="bg-navy border border-white/10 rounded-[2rem] max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col md:flex-row relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="md:w-1/2 h-64 md:h-auto overflow-hidden">
+                <img id="modalImage" src="" alt="" class="w-full h-full object-cover">
+            </div>
+            <div class="md:w-1/2 p-8 md:p-10 overflow-y-auto">
+                <div id="modalCategory" class="inline-block px-3 py-1 mb-4 rounded-full border border-cyan/30 bg-cyan/5 text-cyan text-[10px] font-bold tracking-widest uppercase">
+                    Security
+                </div>
+                <h3 id="modalTitle" class="text-3xl font-bold mb-6"></h3>
+                <p id="modalDescription" class="text-gray-400 text-base leading-relaxed mb-8"></p>
+                <div class="grid grid-cols-2 gap-6 pt-6 border-t border-white/5">
+                    <div>
+                        <h4 class="text-xs font-bold text-cyan uppercase tracking-wider mb-2">Scope</h4>
+                        <p id="modalScope" class="text-white font-medium text-sm"></p>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-cyan uppercase tracking-wider mb-2">Project Type</h4>
+                        <p id="modalType" class="text-white font-medium text-sm"></p>
+                    </div>
+                </div>
+                <div class="mt-10">
+                    <a href="https://wa.me/918976765350" target="_blank" rel="noopener noreferrer" class="inline-block bg-gradient-to-r from-purple-600 to-cyan-500 text-white px-8 py-4 rounded-full font-bold hover:shadow-lg transition text-center w-full md:w-auto">
+                        Inquire About This Service
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 px-6 md:px-10 bg-white/5">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold mb-4">Get Your CCTV Quote</h2>
+                <p class="text-gray-300 max-w-2xl mx-auto">Ready to enhance your security? Contact us today for a free consultation and quote.</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                <!-- Contact Info -->
+                <div class="fade-in delay-1">
+                    <h3 class="text-2xl font-bold mb-8">Contact Information</h3>
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-purple-600 to-cyan-500 rounded-lg flex items-center justify-center">
+                                📞
+                            </div>
+                            <div>
+                                <h4 class="font-bold">Phone</h4>
+                                <a href="tel:+918976765350" class="text-cyan hover:text-white transition">+91 8976765350</a>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-purple-600 to-cyan-500 rounded-lg flex items-center justify-center">
+                                ✉️
+                            </div>
+                            <div>
+                                <h4 class="font-bold">Email</h4>
+                                <a href="mailto:itethik.07@gmail.com" class="text-cyan hover:text-white transition">itethik.07@gmail.com</a>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-purple-600 to-cyan-500 rounded-lg flex items-center justify-center">
+                                📍
+                            </div>
+                            <div>
+                                <h4 class="font-bold">Location</h4>
+                                <p class="text-gray-300">Ulwe, Navi Mumbai<br />Maharashtra, India</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-purple-600 to-cyan-500 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.031-.967-.273-.099-.472-.149-.672.15-.199.297-.768.967-.941 1.166-.173.199-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.447-.52.149-.173.199-.297.298-.497.099-.199.05-.373-.025-.522-.075-.149-.672-1.624-.921-2.224-.242-.58-.487-.502-.672-.512l-.573-.01c-.199 0-.522.074-.795.373s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.199 2.095 3.2 5.076 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.874.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">WhatsApp</h4>
+                                <a href="https://wa.me/918976765350" target="_blank" rel="noopener noreferrer" class="text-cyan hover:text-white transition">Chat with us</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="fade-in delay-2">
+                    <form id="contactForm" class="bg-glass p-8 rounded-2xl">
+                        <div class="mb-6">
+                            <label class="block text-sm font-bold mb-2">Full Name *</label>
+                            <input type="text" id="name" required class="w-full px-4 py-3 bg-navy border border-white/20 rounded-lg focus:border-cyan focus:outline-none transition">
+                        </div>
+                        <div class="mb-6">
+                            <label class="block text-sm font-bold mb-2">Email Address *</label>
+                            <input type="email" id="email" required class="w-full px-4 py-3 bg-navy border border-white/20 rounded-lg focus:border-cyan focus:outline-none transition">
+                        </div>
+                        <div class="mb-6">
+                            <label class="block text-sm font-bold mb-2">Phone Number *</label>
+                            <input type="tel" id="phone" required class="w-full px-4 py-3 bg-navy border border-white/20 rounded-lg focus:border-cyan focus:outline-none transition">
+                        </div>
+                        <div class="mb-6">
+                            <label class="block text-sm font-bold mb-2">Message *</label>
+                            <textarea id="message" rows="4" required class="w-full px-4 py-3 bg-navy border border-white/20 rounded-lg focus:border-cyan focus:outline-none transition resize-none"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-cyan-500 text-white py-4 rounded-lg font-bold hover:shadow-lg hover:shadow-purple-500/50 transition transform hover:scale-105">
+                            Send Message
+                        </button>
+                        <p id="formMessage" class="mt-4 text-center text-sm"></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-navy border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-6 md:px-10 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-12 mb-12">
+                <!-- Brand Section -->
+                <div class="md:col-span-2">
+                    <div class="mb-6">
+                        <div class="inline-flex items-center">
+                            <img src="/logo.png" alt="ITHETHIK" class="h-16 w-auto object-contain" />
+                        </div>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                        Delivering affordable, reliable, and ethical IT solutions for modern businesses. Your trusted partner for CCTV, web development, hardware repair, and digital marketing.
+                    </p>
+                    <p class="text-cyan text-xs font-bold">Affordable • Reliable • Ethical</p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-white font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="/" class="text-gray-400 hover:text-cyan transition">Home</a></li>
+                        <li><a href="/about" class="text-gray-400 hover:text-cyan transition">About Us</a></li>
+                        <li><a href="/services" class="text-gray-400 hover:text-cyan transition">Services</a></li>
+                        <li><a href="/portfolio" class="text-gray-400 hover:text-cyan transition">Portfolio</a></li>
+                        <li><a href="/contact" class="text-gray-400 hover:text-cyan transition">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Services -->
+                <div>
+                    <h3 class="text-white font-bold mb-4">Services</h3>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="/services/cctv.html" class="text-gray-400 hover:text-cyan transition">CCTV Installation</a></li>
+                        <li><a href="/services/repair.html" class="text-gray-400 hover:text-cyan transition">Laptop Repair</a></li>
+                        <li><a href="/services/web.html" class="text-gray-400 hover:text-cyan transition">Web Development</a></li>
+                        <li><a href="/services/digital.html" class="text-gray-400 hover:text-cyan transition">Digital Cards</a></li>
+                        <li><a href="/services/seo.html" class="text-gray-400 hover:text-cyan transition">SEO Services</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h3 class="text-white font-bold mb-4">Contact Us</h3>
+                    <div class="space-y-4 text-sm">
+                        <a href="tel:+918976765350" class="flex items-center gap-2 text-gray-400 hover:text-cyan transition">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="#25D366" aria-hidden="true">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.031-.967-.273-.099-.472-.149-.672.15-.199.297-.768.967-.941 1.166-.173.199-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.447-.52.149-.173.199-.297.298-.497.099-.199.05-.373-.025-.522-.075-.149-.672-1.624-.921-2.224-.242-.58-.487-.502-.672-.512l-.573-.01c-.199 0-.522.074-.795.373s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.199 2.095 3.2 5.076 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.874.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347z"/>
+                            </svg>
+                            +91 8976765350
+                        </a>
+                        <a href="https://wa.me/918976765350" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-gray-400 hover:text-cyan transition">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="#25D366">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.031-.967-.273-.099-.472-.149-.672.15-.199.297-.768.967-.941 1.166-.173.199-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.447-.52.149-.173.199-.297.298-.497.099-.199.05-.373-.025-.522-.075-.149-.672-1.624-.921-2.224-.242-.58-.487-.502-.672-.512l-.573-.01c-.199 0-.522.074-.795.373s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.199 2.095 3.2 5.076 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.874.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347z"/>
+                            </svg>
+                            Chat on WhatsApp
+                        </a>
+                        <a href="mailto:itethik.07@gmail.com" class="flex items-center gap-2 text-gray-400 hover:text-cyan transition">
+                            ✉️ itethik.07@gmail.com
+                        </a>
+                        <div class="flex items-start gap-2 text-gray-400">
+                            <span class="flex-shrink-0 mt-0.5">📍</span>
+                            <div class="text-xs leading-relaxed">
+                                Ulwe, Navi Mumbai<br />
+                                Maharashtra, India
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="border-t border-white/10 py-8"></div>
+
+            <!-- Bottom Section -->
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                <!-- Copyright -->
+                <p class="text-gray-500 text-sm text-center md:text-left">
+                    © 2026 ITHETHIK. All rights reserved.
+                </p>
+
+                <!-- Social Links -->
+                <div class="flex gap-4">
+                    <a href="https://www.instagram.com/_itethik_?igsh=MWthcHY5YmNyeTVqMw==" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-cyan transition duration-300 ease-in-out hover:shadow-[0_0_12px_rgba(100,255,218,0.16)] rounded-full p-2" title="Instagram">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="#E1306C" aria-hidden="true">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37a4 4 0 1 1-7.86 1.96 4 4 0 0 1 7.86-1.96z" fill="#fff"></path>
+                            <circle cx="17.5" cy="6.5" r="1.5" fill="#fff"></circle>
+                        </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/itethik-518ab0239" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-cyan transition duration-300 ease-in-out hover:shadow-[0_0_12px_rgba(100,255,218,0.16)] rounded-full p-2" title="LinkedIn">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="#0A66C2" aria-hidden="true">
+                            <path d="M4.98 3.5a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5zM3 8.25h3.96V21H3V8.25zM9.75 8.25H13v1.72c.49-.9 1.72-1.72 3.56-1.72 3.81 0 4.51 2.5 4.51 5.77V21h-3.96v-5.2c0-1.24-.02-2.83-1.72-2.83-1.72 0-1.98 1.34-1.98 2.73V21H9.75V8.25z"></path>
+                        </svg>
+                    </a>
+                    <a href="https://youtube.com/@itethik?si=zcgCWP7yg9tKdjBN" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-cyan transition duration-300 ease-in-out hover:shadow-[0_0_12px_rgba(100,255,218,0.16)] rounded-full p-2" title="YouTube">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="#FF0000" aria-hidden="true">
+                            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2C5.12 19.5 12 19.5 12 19.5s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path>
+                            <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#fff"></polygon>
+                        </svg>
+                    </a>
+                    <a href="https://x.com/ITEthik" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-cyan transition duration-300 ease-in-out hover:shadow-[0_0_12px_rgba(100,255,218,0.16)] rounded-full p-2" title="X (Twitter)">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+                        </svg>
+                    </a>
+                    <a href="https://jsdl.in/RSL-IPK1778178170" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-cyan transition duration-300 ease-in-out hover:shadow-[0_0_12px_rgba(100,255,218,0.16)] rounded-full p-2" title="Justdial">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="#0072b1" aria-hidden="true">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z" fill="#fff"></path>
+                            <circle cx="12" cy="12" r="10" fill="none" stroke="#64FFDA" stroke-width="1"></circle>
+                        </svg>
+                    </a>
+                    <a href="https://share.google/vtDslwZaaqhT9xTZH" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-cyan transition duration-300 ease-in-out hover:shadow-[0_0_12px_rgba(100,255,218,0.16)] rounded-full p-2" title="Website">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20"></path>
+                        </svg>
+                    </a>
+                </div>
+
+                <!-- Legal Links -->
+                <div class="flex gap-6 text-xs text-gray-500">
+                    <a href="#" class="hover:text-cyan transition">Privacy Policy</a>
+                    <a href="#" class="hover:text-cyan transition">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>';
+            } else {
+                menu.classList.add('hidden');
+                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>';
+            }
+        }
+
+        // Count-up animation
+        function animateCountUp() {
+            const counters = document.querySelectorAll('.count-up');
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const duration = 2000; // 2 seconds
+                const step = target / (duration / 16); // 60fps
+                let current = 0;
+
+                const timer = setInterval(() => {
+                    current += step;
+                    if (current >= target) {
+                        counter.textContent = target;
+                        clearInterval(timer);
+                    } else {
+                        counter.textContent = Math.floor(current);
+                    }
+                }, 16);
+            });
+        }
+
+        // Intersection Observer for animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    if (entry.target.classList.contains('count-up')) {
+                        animateCountUp();
+                    }
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Contact form submission
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formMessage = document.getElementById('formMessage');
+            const submitBtn = this.querySelector('button[type="submit"]');
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                message: document.getElementById('message').value
+            };
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            formMessage.textContent = '';
+
+            try {
+                const response = await fetch('https://render.com/docs/node-version/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    formMessage.textContent = 'Message sent successfully! We\'ll contact you soon.';
+                    formMessage.className = 'mt-4 text-center text-sm text-green-400';
+                    this.reset();
+                } else {
+                    throw new Error('Failed to send message');
+                }
+            } catch (error) {
+                formMessage.textContent = 'Failed to send message. Please try again or contact us directly.';
+                formMessage.className = 'mt-4 text-center text-sm text-red-400';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Case Study Modal Logic
+        const caseStudyData = {
+            'office': {
+                title: 'Office Building Security Upgrade',
+                description: 'We implemented a multi-layered security infrastructure for a 5-story office complex. The project involved strategic placement of 32 AI-powered IP cameras that cover all entry points, lift lobbies, and fire exits. The system features motion alerts sent directly to the security team\'s devices, ensuring rapid response to any unauthorized activity.',
+                scope: '32 HD IP Cameras',
+                type: 'Corporate / Commercial',
+                image: '/images/cctv/office.png'
+            },
+            'apartment': {
+                title: 'Apartment Complex Monitoring',
+                description: 'For this residential project, our focus was on resident safety and perimeter control. We installed a comprehensive 24-camera network across the building\'s frontage, parking zones, and stairwells. The system is equipped with advanced night vision capabilities, providing crystal-clear footage even in complete darkness, which has significantly reduced security incidents in the area.',
+                scope: '24 Night Vision Cameras',
+                type: 'Residential / Society',
+                image: '/images/cctv/apartment.png'
+            },
+            'retail': {
+                title: 'Local Retail Store Surveillance',
+                description: 'A focused security setup designed to prevent shoplifting and monitor billing transactions. We deployed 16 high-resolution dome cameras that provide 360-degree coverage of the sales floor and inventory area. The owner can now monitor live feeds remotely on their smartphone, providing peace of mind during off-hours.',
+                scope: '16 Dome Cameras',
+                type: 'Retail / Small Business',
+                image: '/images/cctv/retail.png'
+            },
+            'warehouse': {
+                title: 'Warehouse & Storage Protection',
+                description: 'Our most robust installation to date, involving 48 weatherproof bullet cameras for an industrial storage facility. The system covers loading docks, large-scale storage racks, and the entire outer perimeter. Advanced motion detection is used to trigger floodlights and sirens after hours, providing a powerful deterrent against theft.',
+                scope: '48 Bullet Cameras',
+                type: 'Industrial / Logistics',
+                image: '/images/cctv/warehouse.png'
+            },
+            'parking': {
+                title: 'Commercial Parking Area Monitoring',
+                description: 'Specialized surveillance for a high-traffic commercial parking lot. We used 20 specialized cameras with License Plate Recognition (LPR) technology at entry and exit points. The system records vehicle details and provides clear evidence in case of fender-benders or unauthorized access.',
+                scope: '20 LPR Cameras',
+                type: 'Parking / Public Space',
+                image: 'https://images.unsplash.com/photo-1590674867571-67d8019588ff?q=80&w=1000&auto=format&fit=crop'
+            },
+            'reception': {
+                title: 'Reception & Lobby Security',
+                description: 'Elegant security solutions for a premium corporate lobby. We installed 12 discreet, high-resolution dome cameras that blend seamlessly with the interior design. The system monitors visitor registration and ensures staff safety without creating an intimidating atmosphere for guests.',
+                scope: '12 Aesthetic Dome Cameras',
+                type: 'Hospitality / Corporate',
+                image: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=1000&auto=format&fit=crop'
+            }
+        };
+
+        function openModal(id) {
+            const data = caseStudyData[id];
+            if (!data) return;
+
+            document.getElementById('modalTitle').textContent = data.title;
+            document.getElementById('modalDescription').textContent = data.description;
+            document.getElementById('modalScope').textContent = data.scope;
+            document.getElementById('modalType').textContent = data.type;
+            document.getElementById('modalImage').src = data.image;
+            document.getElementById('modalImage').alt = data.title;
+
+            const modal = document.getElementById('caseStudyModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('caseStudyModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal on click outside
+        document.getElementById('caseStudyModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        // Swiper Initialization
+        const swiper = new Swiper('.caseStudiesSwiper', {
+            slidesPerView: 1,
+            spaceBetween: 0,
+            centeredSlides: false,
+            loop: true,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            grabCursor: true,
+            speed: 800,
+        });
+    </script>
+</body>
+</html>

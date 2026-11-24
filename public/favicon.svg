@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="iteGrad" x1="12%" y1="92%" x2="88%" y2="8%">
+      <stop offset="0%" stop-color="#00c8f8" />
+      <stop offset="30%" stop-color="#009fe3" />
+      <stop offset="70%" stop-color="#0b52b5" />
+      <stop offset="100%" stop-color="#07308c" />
+    </linearGradient>
+  </defs>
+
+  <!-- Circular background badge -->
+  <circle cx="256" cy="256" r="238" fill="url(#iteGrad)" />
+
+  <!-- "i" letter -->
+  <!-- i dot (rectangle) -->
+  <rect x="76" y="178" width="56" height="46" fill="#ffffff" />
+  <!-- i stem (rectangle) -->
+  <rect x="76" y="240" width="56" height="134" fill="#ffffff" />
+
+  <!-- "t" letter -->
+  <!-- t vertical stem -->
+  <rect x="168" y="74" width="88" height="300" fill="#ffffff" />
+  <!-- t horizontal crossbar -->
+  <rect x="142" y="178" width="144" height="46" fill="#ffffff" />
+
+  <!-- "e" letter tilted & nested -->
+  <g transform="translate(344, 328) rotate(-22)">
+    <!-- e body formed cleanly -->
+    <path d="
+      M -92,0
+      A 92,92 0 1,1 68,62
+      L 34,34
+      A 50,50 0 1,0 -50,-18
+      L 90,-18
+      A 92,92 0 0,0 -92,0 Z
+      M -50,-18
+      A 50,50 0 0,1 50,-18
+      Z
+    " fill="#ffffff" fill-rule="evenodd" />
+  </g>
+</svg>

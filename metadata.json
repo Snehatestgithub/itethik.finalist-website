@@ -1,0 +1,6 @@
+{
+  "name": "ItEthik - Smart IT Solutions & Security Systems",
+  "description": "ItEthik provides reliable IT solutions, CCTV security systems, web development, hardware repair, and IT support services.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
